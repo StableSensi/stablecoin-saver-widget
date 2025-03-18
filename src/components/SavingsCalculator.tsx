@@ -4,16 +4,24 @@ import CountrySelector from './CountrySelector';
 import CurrencyInput from './CurrencyInput';
 import FrequencySelector from './FrequencySelector';
 import SavingsResult from './SavingsResult';
-import { Country, getCountryByCode } from '@/lib/countryData';
+import { Currency, Country, getCountryByCode, getCurrencyByCode, currencies } from '@/lib/countryData';
 import { calculateSavings, SavingsCalculationResult } from '@/lib/calculatorUtils';
 import { toast } from 'sonner';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const SavingsCalculator: React.FC = () => {
   // State for form inputs
   const [fromCountry, setFromCountry] = useState<string>('US');
   const [toCountry, setToCountry] = useState<string>('EU');
   const [amount, setAmount] = useState<number>(1000);
-  const [currency, setCurrency] = useState<string>('USD');
+  const [fromCurrency, setFromCurrency] = useState<string>('USD');
+  const [toCurrency, setToCurrency] = useState<string>('EUR');
   const [frequency, setFrequency] = useState<number>(12);
   
   // State for calculation results
@@ -23,11 +31,21 @@ const SavingsCalculator: React.FC = () => {
   // Handle country selection
   const handleFromCountryChange = (country: Country) => {
     setFromCountry(country.code);
-    setCurrency(country.currencyCode);
+    setFromCurrency(country.currencyCode);
   };
 
   const handleToCountryChange = (country: Country) => {
     setToCountry(country.code);
+    setToCurrency(country.currencyCode);
+  };
+
+  // Handle currency selection
+  const handleFromCurrencyChange = (value: string) => {
+    setFromCurrency(value);
+  };
+
+  const handleToCurrencyChange = (value: string) => {
+    setToCurrency(value);
   };
 
   // Calculate savings when inputs change
@@ -44,8 +62,8 @@ const SavingsCalculator: React.FC = () => {
           if (fromCountryObj && toCountryObj) {
             const savingsResult = calculateSavings(
               amount,
-              currency,
-              toCountryObj.currencyCode,
+              fromCurrency,
+              toCurrency,
               frequency
             );
             setResult(savingsResult);
@@ -62,7 +80,7 @@ const SavingsCalculator: React.FC = () => {
     } else {
       setResult(null);
     }
-  }, [amount, currency, fromCountry, toCountry, frequency]);
+  }, [amount, fromCurrency, toCurrency, fromCountry, toCountry, frequency]);
 
   return (
     <div className="w-full max-w-4xl mx-auto glassmorphism-card rounded-2xl overflow-hidden">
@@ -90,6 +108,59 @@ const SavingsCalculator: React.FC = () => {
               />
             </div>
           </div>
+          
+          <div>
+            <h3 className="text-xl font-medium text-white mb-4">Currency Selection</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-widget-muted text-sm font-medium mb-2">
+                  From Currency
+                </label>
+                <Select
+                  value={fromCurrency}
+                  onValueChange={handleFromCurrencyChange}
+                >
+                  <SelectTrigger className="w-full bg-widget-input text-white border-white/5 focus:ring-widget-accent focus:border-widget-accent">
+                    <SelectValue placeholder="Select currency" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-widget-card text-white border-white/5">
+                    {currencies.map((currency) => (
+                      <SelectItem key={currency.code} value={currency.code}>
+                        <span className="flex items-center gap-2">
+                          <span className="text-white/90">{currency.symbol}</span>
+                          <span>{currency.code} - {currency.name}</span>
+                        </span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <label className="block text-widget-muted text-sm font-medium mb-2">
+                  To Currency
+                </label>
+                <Select
+                  value={toCurrency}
+                  onValueChange={handleToCurrencyChange}
+                >
+                  <SelectTrigger className="w-full bg-widget-input text-white border-white/5 focus:ring-widget-accent focus:border-widget-accent">
+                    <SelectValue placeholder="Select currency" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-widget-card text-white border-white/5">
+                    {currencies.map((currency) => (
+                      <SelectItem key={currency.code} value={currency.code}>
+                        <span className="flex items-center gap-2">
+                          <span className="text-white/90">{currency.symbol}</span>
+                          <span>{currency.code} - {currency.name}</span>
+                        </span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 animate-slide-up" style={{ animationDelay: '100ms' }}>
@@ -99,9 +170,9 @@ const SavingsCalculator: React.FC = () => {
               <CurrencyInput
                 label="Amount to Send"
                 amount={amount}
-                currency={currency}
+                currency={fromCurrency}
                 onAmountChange={setAmount}
-                onCurrencyChange={setCurrency}
+                onCurrencyChange={setFromCurrency}
               />
               <FrequencySelector
                 label="Transfer Frequency"
@@ -115,7 +186,7 @@ const SavingsCalculator: React.FC = () => {
         <div className="animate-slide-up" style={{ animationDelay: '200ms' }}>
           <SavingsResult 
             result={result} 
-            currency={currency}
+            currency={fromCurrency}
             isCalculating={isCalculating}
           />
         </div>
