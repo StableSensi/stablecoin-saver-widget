@@ -6,7 +6,7 @@ import FrequencySelector from './FrequencySelector';
 import SavingsResult from './SavingsResult';
 import { Country, getCountryByCode } from '@/lib/countryData';
 import { calculateSavings, SavingsCalculationResult } from '@/lib/calculatorUtils';
-import { toast } from '@/components/ui/sonner';
+import { toast } from 'sonner';
 
 const SavingsCalculator: React.FC = () => {
   // State for form inputs
