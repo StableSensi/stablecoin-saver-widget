@@ -52,6 +52,10 @@ const WidgetWrapper: React.FC = () => {
     <div
       ref={containerRef}
       className="w-full bg-transparent"
+      style={{
+        maxWidth: '480px',
+        margin: '0 auto'
+      }}
     >
       <SavingsCalculator />
     </div>
