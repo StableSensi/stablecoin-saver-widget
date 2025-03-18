@@ -29,8 +29,10 @@
             iframe.width = options.width;
             iframe.height = options.height;
             iframe.frameBorder = '0';
+            iframe.scrolling = 'yes';
             iframe.style.borderRadius = '12px';
             iframe.style.background = 'transparent';
+            iframe.style.overflow = 'auto';
             
             // Add iframe to container
             container.appendChild(iframe);

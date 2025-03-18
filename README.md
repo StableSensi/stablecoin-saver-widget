@@ -25,7 +25,8 @@ Once deployed, you can embed the widget on any website using one of these method
     width="100%"
     height="500"
     frameborder="0"
-    style="border-radius: 12px; background: transparent; overflow: hidden;"
+    scrolling="yes"
+    style="border-radius: 12px; background: transparent; overflow: auto;"
 ></iframe>
 ```
 

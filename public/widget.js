@@ -12,9 +12,10 @@
             iframe.width = options.width || '100%';
             iframe.height = options.height || '500px';
             iframe.frameBorder = '0';
+            iframe.scrolling = 'yes';
             iframe.allow = 'clipboard-write';
             iframe.style.borderRadius = '12px';
-            iframe.style.overflow = 'hidden';
+            iframe.style.overflow = 'auto';
 
             container.appendChild(iframe);
         }
