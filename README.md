@@ -17,31 +17,77 @@ This project is configured to be deployed on Vercel. Follow these steps to deplo
 
 Once deployed, you can embed the widget on any website using one of these methods:
 
-### Method 1: Direct iframe
+### Method 1: Direct iframe (Recommended)
 
 ```html
 <iframe
     src="https://stablecoin-saver-widget.vercel.app/widget"
     width="100%"
-    height="500"
+    height="500px"
     frameborder="0"
-    scrolling="yes"
-    style="border-radius: 12px; background: transparent; overflow: auto;"
+    scrolling="no"
+    allowfullscreen
+    loading="lazy"
+    allow="clipboard-write"
+    style="border-radius: 12px; background: transparent; overflow: hidden; transition: height 0.3s ease;"
 ></iframe>
+
+<script>
+    // Add this script to enable auto-resizing
+    window.addEventListener('message', function(event) {
+        // Only accept messages from the widget domain
+        if (event.origin !== 'https://stablecoin-saver-widget.vercel.app') return;
+        
+        // Check if it's a resize message
+        if (event.data && event.data.type === 'resize') {
+            // Find our iframe
+            const iframes = document.querySelectorAll('iframe');
+            for (let i = 0; i < iframes.length; i++) {
+                if (iframes[i].src.includes('stablecoin-saver-widget.vercel.app/widget')) {
+                    // Update the height (with min/max constraints)
+                    const minHeight = 300;
+                    const maxHeight = 1000;
+                    const newHeight = Math.max(minHeight, Math.min(event.data.height, maxHeight));
+                    iframes[i].style.height = newHeight + 'px';
+                }
+            }
+        }
+    });
+</script>
 ```
 
-### Method 2: JavaScript Loader
+### Method 2: JavaScript Loader (Easiest)
 
 ```html
 <div id="stablecoin-calculator"></div>
 <script src="https://stablecoin-saver-widget.vercel.app/widget-loader.js"></script>
 <script>
     StablecoinCalculator.init('stablecoin-calculator', {
-        height: 500,
         width: '100%',
-        host: 'https://stablecoin-saver-widget.vercel.app'
+        host: 'https://stablecoin-saver-widget.vercel.app',
+        autoResize: true,
+        minHeight: '300px',
+        maxHeight: '1000px'
     });
 </script>
+```
+
+### Advanced Configuration Options
+
+The JavaScript loader accepts the following configuration options:
+
+```javascript
+StablecoinCalculator.init('container-id', {
+    // Required
+    host: 'https://stablecoin-saver-widget.vercel.app', // Widget host URL
+    
+    // Optional with defaults
+    width: '100%',                // Width of the iframe
+    height: '500px',              // Initial height (will adjust if autoResize is true)
+    autoResize: true,             // Enable automatic height adjustment
+    minHeight: '300px',           // Minimum height constraint
+    maxHeight: '1000px',          // Maximum height constraint
+});
 ```
 
 ## Development
