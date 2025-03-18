@@ -39,18 +39,18 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
   };
 
   return (
-    <div className={`relative ${className}`}>
-      <label className="block text-widget-muted text-sm font-medium mb-3">
+    <div className={`relative ${className}`} style={{ height: '100%' }}>
+      <label className="block text-widget-muted text-xs sm:text-sm font-medium mb-1 sm:mb-2">
         {label}
       </label>
       <div className="flex gap-2">
         <div className="flex-1 relative">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-white/70 text-lg">
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3 sm:pl-4 pointer-events-none text-white/70 text-base sm:text-lg">
             {selectedCurrency.symbol}
           </div>
           <input
             type="text"
-            className="w-full p-4 pl-10 pr-4 bg-widget-input text-white text-lg rounded-lg border border-white/5 focus:outline-none focus:ring-1 focus:ring-widget-accent focus:border-widget-accent transition-all h-12"
+            className="w-full p-2 sm:p-3 md:p-4 pl-8 sm:pl-10 pr-3 sm:pr-4 bg-widget-input text-white text-sm sm:text-base md:text-lg rounded-lg border border-white/10 hover:border-white/20 focus:ring-widget-accent focus:border-widget-accent focus:outline-none transition-all h-10 sm:h-12 shadow-sm"
             placeholder="0.00"
             value={amount > 0 ? amount.toString() : ""}
             onChange={handleAmountChange}

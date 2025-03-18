@@ -1,3 +1,60 @@
+# Stablecoin Savings Calculator Widget
+
+A widget that calculates potential savings when using stablecoins for international transfers.
+
+## Deployment to Vercel
+
+This project is configured to be deployed on Vercel. Follow these steps to deploy:
+
+1. Push your code to a GitHub repository
+2. Go to [Vercel](https://vercel.com) and sign in
+3. Click "New Project"
+4. Import your GitHub repository
+5. Keep the default settings (Vercel will automatically detect it's a Vite project)
+6. Click "Deploy"
+
+## Embedding the Widget
+
+Once deployed, you can embed the widget on any website using one of these methods:
+
+### Method 1: Direct iframe
+
+```html
+<iframe
+    src="https://your-vercel-deployment-url.vercel.app/widget"
+    width="100%"
+    height="600"
+    frameborder="0"
+    style="border-radius: 12px; background: transparent;"
+></iframe>
+```
+
+### Method 2: JavaScript Loader
+
+```html
+<div id="stablecoin-calculator"></div>
+<script src="https://your-vercel-deployment-url.vercel.app/widget-loader.js"></script>
+<script>
+    StablecoinCalculator.init('stablecoin-calculator', {
+        height: 600,
+        width: '100%',
+        host: 'https://your-vercel-deployment-url.vercel.app'
+    });
+</script>
+```
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+```
 # Welcome to your Lovable project
 
 ## Project info

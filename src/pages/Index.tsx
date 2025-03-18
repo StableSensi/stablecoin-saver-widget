@@ -5,7 +5,7 @@ import { GlobeIcon } from 'lucide-react';
 
 const Index: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-widget-bg to-black">
+    <div className="bg-gradient-to-b from-widget-bg to-black">
       <div className="container mx-auto px-4 py-12">
         <div className="flex flex-col items-center justify-center text-center mb-10">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-widget-accent/20 mb-4">

@@ -21,11 +21,11 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
 
   return (
     <div className={`relative ${className}`}>
-      <label className="block text-widget-muted text-sm font-medium mb-3">
+      <label className="block text-widget-muted text-xs sm:text-sm font-medium mb-1 sm:mb-2">
         {label}
       </label>
-      <div 
-        className="flex items-center justify-between px-4 py-3 bg-widget-input rounded-lg border border-white/5 cursor-pointer transition-all hover:border-white/10 h-12"
+      <div
+        className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 bg-widget-input rounded-lg border border-white/10 cursor-pointer transition-all hover:border-white/20 h-10 sm:h-12 shadow-sm"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-3">

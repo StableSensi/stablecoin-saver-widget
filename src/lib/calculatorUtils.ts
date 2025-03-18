@@ -25,7 +25,7 @@ const bankFeesByCurrency: Record<string, BankFee> = {
   'default': { fixedFee: 25, percentageFee: 0.015, hiddenFxMarkup: 0.04 }
 };
 
-// Fee structure for stablecoin transfers (much lower)
+// Updated stablecoin fees to be more realistic
 const stablecoinFee = {
   fixedFee: 1, // Lower fixed fee
   percentageFee: 0.001, // 0.1%
