@@ -38,24 +38,24 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
 
   return (
     <div className={`relative ${className}`}>
-      <label className="block text-widget-muted text-sm font-medium mb-2">
+      <label className="block text-widget-muted text-sm font-medium mb-3">
         {label}
       </label>
       <div className="flex gap-2">
         <div className="flex-1 relative">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-white/70">
+          <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-white/70 text-lg">
             {selectedCurrency.symbol}
           </div>
           <input
             type="text"
-            className="w-full p-3 pl-8 pr-4 bg-widget-input text-white rounded-lg border border-white/5 focus:outline-none focus:ring-1 focus:ring-widget-accent focus:border-widget-accent transition-all"
+            className="w-full p-4 pl-10 pr-4 bg-widget-input text-white text-lg rounded-lg border border-white/5 focus:outline-none focus:ring-1 focus:ring-widget-accent focus:border-widget-accent transition-all h-12"
             placeholder="0.00"
             value={amount > 0 ? amount.toString() : ""}
             onChange={handleAmountChange}
           />
         </div>
         <select
-          className="bg-widget-input text-white rounded-lg border border-white/5 px-3 py-3 focus:outline-none focus:ring-1 focus:ring-widget-accent focus:border-widget-accent transition-all"
+          className="bg-widget-input text-white rounded-lg border border-white/5 px-4 py-3 focus:outline-none focus:ring-1 focus:ring-widget-accent focus:border-widget-accent transition-all text-base h-12"
           value={currency}
           onChange={(e) => onCurrencyChange(e.target.value)}
         >

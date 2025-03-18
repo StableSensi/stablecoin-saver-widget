@@ -7,6 +7,8 @@ import SavingsResult from './SavingsResult';
 import { Currency, Country, getCountryByCode, getCurrencyByCode, currencies } from '@/lib/countryData';
 import { calculateSavings, SavingsCalculationResult } from '@/lib/calculatorUtils';
 import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
+import { CalendarClock } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -46,6 +48,10 @@ const SavingsCalculator: React.FC = () => {
 
   const handleToCurrencyChange = (value: string) => {
     setToCurrency(value);
+  };
+
+  const handleBookCall = () => {
+    toast.success("Thank you! Our team will contact you soon to schedule a call.");
   };
 
   // Calculate savings when inputs change
@@ -91,27 +97,29 @@ const SavingsCalculator: React.FC = () => {
         </p>
       </div>
 
-      <div className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 animate-slide-up">
+      <div className="p-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 animate-slide-up">
           <div>
             <h3 className="text-xl font-medium text-white mb-4">From Country & To Country</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-6">
               <CountrySelector 
                 label="From Country" 
                 value={fromCountry}
                 onChange={handleFromCountryChange}
+                className="w-full"
               />
               <CountrySelector 
                 label="To Country" 
                 value={toCountry}
                 onChange={handleToCountryChange}
+                className="w-full"
               />
             </div>
           </div>
           
           <div>
             <h3 className="text-xl font-medium text-white mb-4">Currency Selection</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-6">
               <div>
                 <label className="block text-widget-muted text-sm font-medium mb-2">
                   From Currency
@@ -120,7 +128,7 @@ const SavingsCalculator: React.FC = () => {
                   value={fromCurrency}
                   onValueChange={handleFromCurrencyChange}
                 >
-                  <SelectTrigger className="w-full bg-widget-input text-white border-white/5 focus:ring-widget-accent focus:border-widget-accent">
+                  <SelectTrigger className="w-full h-12 bg-widget-input text-white border-white/5 focus:ring-widget-accent focus:border-widget-accent text-base">
                     <SelectValue placeholder="Select currency" />
                   </SelectTrigger>
                   <SelectContent className="bg-widget-card text-white border-white/5">
@@ -144,7 +152,7 @@ const SavingsCalculator: React.FC = () => {
                   value={toCurrency}
                   onValueChange={handleToCurrencyChange}
                 >
-                  <SelectTrigger className="w-full bg-widget-input text-white border-white/5 focus:ring-widget-accent focus:border-widget-accent">
+                  <SelectTrigger className="w-full h-12 bg-widget-input text-white border-white/5 focus:ring-widget-accent focus:border-widget-accent text-base">
                     <SelectValue placeholder="Select currency" />
                   </SelectTrigger>
                   <SelectContent className="bg-widget-card text-white border-white/5">
@@ -163,21 +171,23 @@ const SavingsCalculator: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 animate-slide-up" style={{ animationDelay: '100ms' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 animate-slide-up" style={{ animationDelay: '100ms' }}>
           <div>
             <h3 className="text-xl font-medium text-white mb-4">Transfer Amount</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-6">
               <CurrencyInput
                 label="Amount to Send"
                 amount={amount}
                 currency={fromCurrency}
                 onAmountChange={setAmount}
                 onCurrencyChange={setFromCurrency}
+                className="w-full"
               />
               <FrequencySelector
                 label="Transfer Frequency"
                 value={frequency}
                 onChange={setFrequency}
+                className="w-full"
               />
             </div>
           </div>
@@ -189,6 +199,16 @@ const SavingsCalculator: React.FC = () => {
             currency={fromCurrency}
             isCalculating={isCalculating}
           />
+        </div>
+
+        <div className="mt-10 flex justify-center animate-slide-up" style={{ animationDelay: '300ms' }}>
+          <Button 
+            onClick={handleBookCall}
+            className="bg-widget-accent hover:bg-widget-accent/90 text-white font-semibold py-6 px-8 rounded-xl text-lg flex items-center gap-2 shadow-glow transition-all duration-300 hover:scale-105"
+          >
+            <CalendarClock className="h-5 w-5" />
+            Book a Call with Our Team
+          </Button>
         </div>
       </div>
     </div>

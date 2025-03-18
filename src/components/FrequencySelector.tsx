@@ -25,11 +25,11 @@ const FrequencySelector: React.FC<FrequencySelectorProps> = ({
 
   return (
     <div className={`relative ${className}`}>
-      <label className="block text-widget-muted text-sm font-medium mb-2">
+      <label className="block text-widget-muted text-sm font-medium mb-3">
         {label}
       </label>
       <select
-        className="w-full p-3 bg-widget-input text-white rounded-lg border border-white/5 appearance-none focus:outline-none focus:ring-1 focus:ring-widget-accent focus:border-widget-accent transition-all"
+        className="w-full p-4 bg-widget-input text-white rounded-lg border border-white/5 appearance-none focus:outline-none focus:ring-1 focus:ring-widget-accent focus:border-widget-accent transition-all text-base h-12"
         value={value}
         onChange={(e) => onChange(parseInt(e.target.value))}
       >
