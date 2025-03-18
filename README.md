@@ -21,7 +21,7 @@ Once deployed, you can embed the widget on any website using one of these method
 
 ```html
 <iframe
-    src="https://your-vercel-deployment-url.vercel.app/widget"
+    src="https://stablecoin-saver-widget.vercel.app/widget"
     width="100%"
     height="600"
     frameborder="0"
@@ -33,12 +33,12 @@ Once deployed, you can embed the widget on any website using one of these method
 
 ```html
 <div id="stablecoin-calculator"></div>
-<script src="https://your-vercel-deployment-url.vercel.app/widget-loader.js"></script>
+<script src="https://stablecoin-saver-widget.vercel.app/widget-loader.js"></script>
 <script>
     StablecoinCalculator.init('stablecoin-calculator', {
         height: 600,
         width: '100%',
-        host: 'https://your-vercel-deployment-url.vercel.app'
+        host: 'https://stablecoin-saver-widget.vercel.app'
     });
 </script>
 ```
