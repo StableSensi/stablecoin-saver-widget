@@ -111,5 +111,5 @@ export function formatCurrency(amount: number, currencyCode: string): string {
   }
   
   const formattedNumber = new Intl.NumberFormat('en-US', options).format(amount);
-  return `${symbol} ${formattedNumber}`;
+  return `${symbol}${formattedNumber}`;
 }

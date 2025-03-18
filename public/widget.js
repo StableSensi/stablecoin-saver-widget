@@ -10,7 +10,7 @@
             const iframe = document.createElement('iframe');
             iframe.src = options.host ? `${options.host}/widget` : '/widget';
             iframe.width = options.width || '100%';
-            iframe.height = options.height || '800px';
+            iframe.height = options.height || '500px';
             iframe.frameBorder = '0';
             iframe.allow = 'clipboard-write';
             iframe.style.borderRadius = '12px';

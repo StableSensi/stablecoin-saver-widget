@@ -6,7 +6,7 @@
             // Default configuration
             const defaults = {
                 width: '100%',
-                height: 600,
+                height: 500,
                 host: window.location.origin
             };
 

@@ -50,7 +50,7 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
           </div>
           <input
             type="text"
-            className="w-full p-2 sm:p-3 md:p-4 pl-8 sm:pl-10 pr-3 sm:pr-4 bg-widget-input text-white text-sm sm:text-base md:text-lg rounded-lg border border-white/10 hover:border-white/20 focus:ring-widget-accent focus:border-widget-accent focus:outline-none transition-all h-10 sm:h-12 shadow-sm"
+            className="w-full p-2 sm:p-3 md:p-4 pl-10 sm:pl-12 pr-3 sm:pr-4 bg-widget-input text-white text-sm sm:text-base md:text-lg rounded-lg border border-white/10 hover:border-white/20 focus:ring-widget-accent focus:border-widget-accent focus:outline-none transition-all h-10 sm:h-12 shadow-sm"
             placeholder="0.00"
             value={amount > 0 ? amount.toString() : ""}
             onChange={handleAmountChange}

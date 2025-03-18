@@ -3,7 +3,7 @@ import SavingsCalculator from './SavingsCalculator';
 
 const WidgetWrapper: React.FC = () => {
   return (
-    <div className="w-full h-full bg-transparent">
+    <div className="w-full h-full bg-transparent overflow-y-auto max-h-[600px] scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
       <SavingsCalculator />
     </div>
   );
