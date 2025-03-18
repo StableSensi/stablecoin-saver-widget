@@ -180,7 +180,7 @@ const SavingsCalculator: React.FC = () => {
                 amount={amount}
                 currency={fromCurrency}
                 onAmountChange={setAmount}
-                onCurrencyChange={setFromCurrency}
+                showCurrencySelect={false}
                 className="w-full"
               />
               <FrequencySelector

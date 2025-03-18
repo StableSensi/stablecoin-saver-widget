@@ -7,8 +7,9 @@ interface CurrencyInputProps {
   amount: number;
   currency: string;
   onAmountChange: (amount: number) => void;
-  onCurrencyChange: (currency: string) => void;
+  onCurrencyChange?: (currency: string) => void; // Make this optional
   className?: string;
+  showCurrencySelect?: boolean; // New prop to control visibility of currency selector
 }
 
 const CurrencyInput: React.FC<CurrencyInputProps> = ({
@@ -17,7 +18,8 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
   currency,
   onAmountChange,
   onCurrencyChange,
-  className = ""
+  className = "",
+  showCurrencySelect = true // Default to showing the selector
 }) => {
   const selectedCurrency = currencies.find(c => c.code === currency) || currencies[0];
   
@@ -54,17 +56,20 @@ const CurrencyInput: React.FC<CurrencyInputProps> = ({
             onChange={handleAmountChange}
           />
         </div>
-        <select
-          className="bg-widget-input text-white rounded-lg border border-white/5 px-4 py-3 focus:outline-none focus:ring-1 focus:ring-widget-accent focus:border-widget-accent transition-all text-base h-12"
-          value={currency}
-          onChange={(e) => onCurrencyChange(e.target.value)}
-        >
-          {currencies.map((c) => (
-            <option key={c.code} value={c.code}>
-              {c.code}
-            </option>
-          ))}
-        </select>
+        
+        {showCurrencySelect && onCurrencyChange && (
+          <select
+            className="bg-widget-input text-white rounded-lg border border-white/5 px-4 py-3 focus:outline-none focus:ring-1 focus:ring-widget-accent focus:border-widget-accent transition-all text-base h-12"
+            value={currency}
+            onChange={(e) => onCurrencyChange(e.target.value)}
+          >
+            {currencies.map((c) => (
+              <option key={c.code} value={c.code}>
+                {c.code}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
     </div>
   );
