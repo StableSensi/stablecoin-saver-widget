@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { SavingsCalculationResult } from '@/lib/calculatorUtils';
 import { formatCurrency } from '@/lib/calculatorUtils';

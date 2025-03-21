@@ -1,115 +1,74 @@
-
-// Define the typical bank fee structures (these are example values)
-interface BankFee {
-  fixedFee: number;    // Fixed fee in the currency
-  percentageFee: number; // Percentage fee (e.g., 0.03 for 3%)
-  hiddenFxMarkup: number; // Hidden FX markup (e.g., 0.02 for 2% worse exchange rate)
-}
-
-// Fee structure by currency for traditional banks
-const bankFeesByCurrency: Record<string, BankFee> = {
-  'USD': { fixedFee: 25, percentageFee: 0.01, hiddenFxMarkup: 0.04 },
-  'EUR': { fixedFee: 20, percentageFee: 0.01, hiddenFxMarkup: 0.04 },
-  'GBP': { fixedFee: 15, percentageFee: 0.01, hiddenFxMarkup: 0.035 },
-  'JPY': { fixedFee: 2500, percentageFee: 0.01, hiddenFxMarkup: 0.04 },
-  'CAD': { fixedFee: 30, percentageFee: 0.01, hiddenFxMarkup: 0.04 },
-  'AUD': { fixedFee: 30, percentageFee: 0.01, hiddenFxMarkup: 0.04 },
-  'CHF': { fixedFee: 25, percentageFee: 0.01, hiddenFxMarkup: 0.035 },
-  'CNY': { fixedFee: 150, percentageFee: 0.01, hiddenFxMarkup: 0.045 },
-  'INR': { fixedFee: 1500, percentageFee: 0.01, hiddenFxMarkup: 0.045 },
-  'SGD': { fixedFee: 30, percentageFee: 0.01, hiddenFxMarkup: 0.04 },
-  'BRL': { fixedFee: 100, percentageFee: 0.02, hiddenFxMarkup: 0.045 },
-  'ZAR': { fixedFee: 300, percentageFee: 0.02, hiddenFxMarkup: 0.045 },
-  'MXN': { fixedFee: 400, percentageFee: 0.015, hiddenFxMarkup: 0.045 },
-  // Default for any currency not listed
-  'default': { fixedFee: 25, percentageFee: 0.015, hiddenFxMarkup: 0.04 }
-};
-
-// Updated stablecoin fees to be more realistic
-const stablecoinFee = {
-  fixedFee: 1, // Lower fixed fee
-  percentageFee: 0.001, // 0.1%
-  hiddenFxMarkup: 0 // No hidden markup
-};
-
 export interface SavingsCalculationResult {
   traditionalCost: number;
   stablecoinCost: number;
   savings: number;
   savingsPercentage: number;
   annualSavings: number;
-  details: {
-    traditionalFixedFee: number;
-    traditionalPercentageFee: number;
-    traditionalFxMarkup: number;
-    stablecoinFixedFee: number;
-    stablecoinPercentageFee: number;
-  };
 }
 
-export function calculateSavings(
+// Hard-coded mid-market exchange rates for several currencies.
+// These values are approximate. Add more currencies or update values as needed.
+const EXCHANGE_RATES: { [base: string]: { [target: string]: number } } = {
+  USD: { USD: 1,   EUR: 0.90, GBP: 0.80, CAD: 1.35, JPY: 134 },
+  EUR: { EUR: 1,   USD: 1.11, GBP: 0.88, CAD: 1.50, JPY: 149 },
+  GBP: { GBP: 1,   USD: 1.25, EUR: 1.14, CAD: 1.70, JPY: 169 },
+  CAD: { CAD: 1,   USD: 0.74, EUR: 0.66, GBP: 0.59, JPY: 99 },
+  JPY: { JPY: 1,   USD: 0.0075, EUR: 0.0067, GBP: 0.0059, CAD: 0.0101 },
+  // Additional currencies can be added here
+};
+
+export const calculateSavings = (
   amount: number,
   fromCurrency: string,
   toCurrency: string,
-  frequency: number
-): SavingsCalculationResult {
-  // Get bank fee structure for the source currency
-  const bankFee = bankFeesByCurrency[fromCurrency] || bankFeesByCurrency.default;
+  frequency: number // Number of transfers per year
+): SavingsCalculationResult => {
+  // Fixed average fee percentages for simplicity
+  const traditionalFeePercentage = 0.06; // 6% fee for traditional bank transfers
+  const stablecoinFeePercentage = 0.01;  // 1% fee for stablecoin network costs
+  const reForgeFeePercentage = 0.003;    // 0.3% fee for ReForge currency conversion
 
-  // Calculate traditional bank transfer costs
-  const traditionalFixedFee = bankFee.fixedFee;
-  const traditionalPercentageFee = amount * bankFee.percentageFee;
-  const traditionalFxMarkup = amount * bankFee.hiddenFxMarkup;
-  const traditionalCost = traditionalFixedFee + traditionalPercentageFee + traditionalFxMarkup;
+  // Optional exchange rate lookup (if transferring between different currencies)
+  let exchangeRate = 1;
+  if (fromCurrency !== toCurrency && 
+      EXCHANGE_RATES[fromCurrency] && 
+      EXCHANGE_RATES[fromCurrency][toCurrency]) {
+    exchangeRate = EXCHANGE_RATES[fromCurrency][toCurrency];
+  }
 
-  // Calculate stablecoin transfer costs
-  const stablecoinFixedFee = stablecoinFee.fixedFee;
-  const stablecoinPercentageFee = amount * stablecoinFee.percentageFee;
-  const stablecoinCost = stablecoinFixedFee + stablecoinPercentageFee;
-
-  // Calculate savings
+  // Calculate fees on the sender's amount
+  const traditionalCost = amount * traditionalFeePercentage;
+  
+  // The stablecoin route includes both network and ReForge fees
+  const stablecoinCost = amount * (stablecoinFeePercentage + reForgeFeePercentage);
+  
+  // Savings per transfer in sender's currency
   const savings = traditionalCost - stablecoinCost;
-  const savingsPercentage = (savings / traditionalCost) * 100;
-  const annualSavings = savings * frequency; // Annual savings based on frequency
-
+  
+  // Savings percentage relative to the traditional fee
+  const savingsPercentage = traditionalCost > 0 ? (savings / traditionalCost) * 100 : 0;
+  
+  // Annual savings based on the number of transfers per year
+  const annualSavings = savings * frequency;
+  
   return {
     traditionalCost,
     stablecoinCost,
     savings,
     savingsPercentage,
     annualSavings,
-    details: {
-      traditionalFixedFee,
-      traditionalPercentageFee,
-      traditionalFxMarkup,
-      stablecoinFixedFee,
-      stablecoinPercentageFee
-    }
   };
-}
+};
 
-export function formatCurrency(amount: number, currencyCode: string): string {
-  // Get currency symbol based on currency code
-  const currencies: Record<string, string> = {
-    'USD': '$', 'EUR': '€', 'GBP': '£', 'JPY': '¥',
-    'CAD': 'C$', 'AUD': 'A$', 'CHF': 'CHF', 'CNY': '¥',
-    'INR': '₹', 'SGD': 'S$', 'BRL': 'R$', 'ZAR': 'R', 'MXN': 'Mex$'
-  };
-
-  const symbol = currencies[currencyCode] || currencyCode;
-  
-  // Format number based on currency
-  const options: Intl.NumberFormatOptions = {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  };
-  
-  // Handle JPY specifically which typically doesn't show decimal places
-  if (currencyCode === 'JPY') {
-    options.minimumFractionDigits = 0;
-    options.maximumFractionDigits = 0;
+// Helper function to format currency values 
+export const formatCurrency = (value: number, currency: string): string => {
+  try {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency,
+      maximumFractionDigits: 2,
+    }).format(value);
+  } catch (error) {
+    return `${currency} ${value.toFixed(2)}`;
   }
-  
-  const formattedNumber = new Intl.NumberFormat('en-US', options).format(amount);
-  return `${symbol}${formattedNumber}`;
-}
+};
