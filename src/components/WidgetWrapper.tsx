@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import SavingsCalculator from './SavingsCalculator';
+import React, { useEffect, useRef } from "react";
+import SavingsCalculator from "./SavingsCalculator";
 
 const WidgetWrapper: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -12,9 +12,9 @@ const WidgetWrapper: React.FC = () => {
       // Send message to parent window with current height
       if (window.parent !== window) {
         window.parent.postMessage({
-          type: 'resize',
+          type: "resize",
           height: height
-        }, '*');
+        }, "*");
       }
     }
   };
@@ -30,12 +30,12 @@ const WidgetWrapper: React.FC = () => {
       
       // Listen for height request messages from parent
       const handleMessage = (event: MessageEvent) => {
-        if (event.data && event.data.type === 'requestHeight') {
+        if (event.data && event.data.type === "requestHeight") {
           sendHeightToParent();
         }
       };
       
-      window.addEventListener('message', handleMessage);
+      window.addEventListener("message", handleMessage);
       
       // Initial height send after a short delay to ensure content is rendered
       setTimeout(sendHeightToParent, 300);
@@ -43,7 +43,7 @@ const WidgetWrapper: React.FC = () => {
       // Clean up
       return () => {
         resizeObserver.disconnect();
-        window.removeEventListener('message', handleMessage);
+        window.removeEventListener("message", handleMessage);
       };
     }
   }, []);
@@ -53,8 +53,8 @@ const WidgetWrapper: React.FC = () => {
       ref={containerRef}
       className="w-full bg-transparent"
       style={{
-        maxWidth: '480px',
-        margin: '0 auto'
+        width: "100%",
+        margin: "0 auto"
       }}
     >
       <SavingsCalculator />

@@ -1,14 +1,13 @@
-
-import React, { useState, useEffect } from 'react';
-import CountrySelector from './CountrySelector';
-import CurrencyInput from './CurrencyInput';
-import FrequencySelector from './FrequencySelector';
-import SavingsResult from './SavingsResult';
-import { Currency, Country, getCountryByCode, getCurrencyByCode, currencies } from '@/lib/countryData';
-import { calculateSavings, SavingsCalculationResult } from '@/lib/calculatorUtils';
-import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
-import { CalendarClock } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import CountrySelector from "./CountrySelector";
+import CurrencyInput from "./CurrencyInput";
+import FrequencySelector from "./FrequencySelector";
+import SavingsResult from "./SavingsResult";
+import { Currency, Country, getCountryByCode, getCurrencyByCode, currencies } from "@/lib/countryData";
+import { calculateSavings, SavingsCalculationResult } from "@/lib/calculatorUtils";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { CalendarClock } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -19,11 +18,11 @@ import {
 
 const SavingsCalculator: React.FC = () => {
   // State for form inputs
-  const [fromCountry, setFromCountry] = useState<string>('US');
-  const [toCountry, setToCountry] = useState<string>('EU');
+  const [fromCountry, setFromCountry] = useState<string>("US");
+  const [toCountry, setToCountry] = useState<string>("EU");
   const [amount, setAmount] = useState<number>(1000);
-  const [fromCurrency, setFromCurrency] = useState<string>('USD');
-  const [toCurrency, setToCurrency] = useState<string>('EUR');
+  const [fromCurrency, setFromCurrency] = useState<string>("USD");
+  const [toCurrency, setToCurrency] = useState<string>("EUR");
   const [frequency, setFrequency] = useState<number>(12);
   
   // State for calculation results
@@ -50,9 +49,14 @@ const SavingsCalculator: React.FC = () => {
     setToCurrency(value);
   };
 
+  // Handle frequency change
+  const handleFrequencyChange = (value: number) => {
+    setFrequency(value);
+  };
+
   const handleBookCall = () => {
     // Open Cal.com booking link in a new window
-    window.open('https://cal.com/team/stablecoinsservices/stablecoin-demo', '_blank', 'noopener,noreferrer');
+    window.open("https://cal.com/team/stablecoinsservices/stablecoin-demo", "_blank", "noopener,noreferrer");
     toast.success("Opening booking calendar in a new window");
   };
 
@@ -77,8 +81,8 @@ const SavingsCalculator: React.FC = () => {
             setResult(savingsResult);
           }
         } catch (error) {
-          console.error('Error calculating savings:', error);
-          toast.error('Something went wrong while calculating your savings');
+          console.error("Error calculating savings:", error);
+          toast.error("Something went wrong while calculating your savings");
         } finally {
           setIsCalculating(false);
         }
@@ -91,7 +95,7 @@ const SavingsCalculator: React.FC = () => {
   }, [amount, fromCurrency, toCurrency, fromCountry, toCountry, frequency]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto glassmorphism-card rounded-2xl overflow-hidden shadow-2xl border border-white/10 backdrop-blur-sm">
+    <div className="w-full max-w-full mx-auto glassmorphism-card rounded-2xl overflow-hidden shadow-2xl border border-white/10 backdrop-blur-sm">
       <div className="bg-gradient-to-r from-black/40 to-black/30 p-4 sm:p-6 border-b border-white/10">
         <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">Calculate Your Cross-Border Savings</h2>
         <p className="text-widget-muted mt-2 text-xs sm:text-sm">
@@ -179,7 +183,7 @@ const SavingsCalculator: React.FC = () => {
           </div>
         </div>
 
-        <div className="mb-6 sm:mb-8 md:mb-10 animate-slide-up" style={{ animationDelay: '100ms' }}>
+        <div className="mb-6 sm:mb-8 md:mb-10 animate-slide-up" style={{ animationDelay: "100ms" }}>
           <div className="col-span-1 md:col-span-2">
             <h3 className="text-lg sm:text-xl font-semibold text-white mb-2 sm:mb-4 flex items-center">
               <span className="inline-block w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-widget-accent/20 text-widget-accent mr-2 flex items-center justify-center text-xs sm:text-sm">3</span>
@@ -199,14 +203,14 @@ const SavingsCalculator: React.FC = () => {
                 <FrequencySelector
                   label="Transfer Frequency"
                   value={frequency}
-                  onChange={setFrequency}
+                  onChange={handleFrequencyChange}
                 />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="animate-slide-up bg-black/20 rounded-xl p-4 sm:p-6 border border-white/5" style={{ animationDelay: '200ms' }}>
+        <div className="animate-slide-up bg-black/20 rounded-xl p-4 sm:p-6 border border-white/5" style={{ animationDelay: "200ms" }}>
           <SavingsResult
             result={result}
             currency={fromCurrency}
@@ -214,7 +218,7 @@ const SavingsCalculator: React.FC = () => {
           />
         </div>
 
-        <div className="mt-6 sm:mt-8 md:mt-10 flex justify-center animate-slide-up" style={{ animationDelay: '300ms' }}>
+        <div className="mt-6 sm:mt-8 md:mt-10 flex justify-center animate-slide-up" style={{ animationDelay: "300ms" }}>
           <Button
             onClick={handleBookCall}
             className="bg-gradient-to-r from-widget-accent to-widget-accent/90 hover:from-widget-accent/90 hover:to-widget-accent text-white font-semibold py-3 sm:py-4 md:py-6 px-4 sm:px-6 md:px-8 rounded-xl text-sm sm:text-base md:text-lg flex items-center gap-2 shadow-glow transition-all duration-300 hover:scale-105 border border-white/10"

@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface FrequencySelectorProps {
@@ -23,6 +22,12 @@ const FrequencySelector: React.FC<FrequencySelectorProps> = ({
     { value: 52, label: 'Weekly' }
   ];
 
+  // Handle the change directly in this component
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newValue = parseInt(e.target.value, 10);
+    onChange(newValue);
+  };
+
   return (
     <div className={`relative ${className}`} style={{ height: '100%' }}>
       <label className="block text-widget-muted text-xs sm:text-sm font-medium mb-1 sm:mb-2">
@@ -31,9 +36,7 @@ const FrequencySelector: React.FC<FrequencySelectorProps> = ({
       <select
         className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-widget-input text-white rounded-lg border border-white/10 hover:border-white/20 focus:ring-widget-accent focus:border-widget-accent focus:outline-none appearance-none transition-all text-sm sm:text-base h-10 sm:h-12 pr-8 sm:pr-10 shadow-sm"
         value={value}
-        onChange={(e) => onChange(parseInt(e.target.value))}
-        style={{
-        }}
+        onChange={handleChange}
       >
         {frequencies.map((freq) => (
           <option 
